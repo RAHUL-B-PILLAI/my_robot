@@ -1,13 +1,12 @@
-<robot name="rb1 robot">   
-	<!-- define the inertial properties -->
+<robot name="rb1 robot">
 
-	<!-- define the visual and collision properties of the cylinder-link -->
-	<link name="base_link">
-        <inertial>
-            <mass value="25" />
-            <origin xyz="0 0 0" />
-            <inertia ixx="1.4421875" ixy="0" iyy="1.4421875" iyz="0" izz="0.78125" />
-        </inertial>
+	<link name="base_link"/>
+	<link name="body">
+		<inertial>
+			<mass value="25" />
+			<origin xyz="0 0 0" />
+			<inertia ixx="0.578125" ixy="0" ixz="0" iyy="0.578125" iyz="0" izz="0.78125" />
+		</inertial>
 		<visual>
 			<origin xyz="0 0 0" rpy="0 0 0" />
 			<geometry>
@@ -146,6 +145,12 @@
 		</inertial>
 	</link>
 	<!-- Define the joint to connect the base_footprint to the base -->
+	<joint name="body_joint" type="fixed">
+		<parent link="base_link" />
+		<child link="body" />
+		<origin xyz="0 0 0" />
+	</joint>
+	<!-- Define the joint to connect the base_footprint to the base -->
 	<joint name="base_footprint_joint" type="fixed">
 		<parent link="base_link" />
 		<child link="base_footprint" />
@@ -188,84 +193,5 @@
 		<origin xyz="0.25 0.0 0.075" rpy="3.14159 0 0" />
 	</joint>
 
-	<gazebo>
-		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
-	  
-		  <!-- Plugin update rate in Hz -->
-		  <updateRate>50</updateRate>
-	  
-		  <!-- Name of left joint, defaults to `left_joint` -->
-		  <leftJoint>left_wheel_joint</leftJoint>
-	  
-		  <!-- Name of right joint, defaults to `right_joint` -->
-		  <rightJoint>right_wheel_joint</rightJoint>
-	  
-		  <!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m -->
-		  <wheelSeparation>0.4</wheelSeparation>
-	  
-		  <!-- Diameter of the wheels, in meters, defaults to 0.15 m -->
-		  <wheelDiameter>0.05</wheelDiameter>
-	  
-		  <!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 -->
-		  <wheelAcceleration>0</wheelAcceleration>
-	  
-		  <!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm -->
-		  <wheelTorque>5</wheelTorque>
-	  
-		  <!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` -->
-		  <commandTopic>cmd_vel</commandTopic>
-	  
-		  <!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` -->
-		  <odometryTopic>odom</odometryTopic>
-	  
-		  <!-- Odometry frame, defaults to `odom` -->
-		  <odometryFrame>odom</odometryFrame>
-	  
-		  <!-- Robot frame to calculate odometry from, defaults to `base_footprint` -->
-		  <robotBaseFrame>base_link</robotBaseFrame>
-	  
-		  <!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD -->
-		  <odometrySource>world</odometrySource>
-	  
-		  <!-- Set to true to publish transforms for the wheel links, defaults to false -->
-		  <publishWheelTF>true</publishWheelTF>
-	  
-		  <!-- Set to true to publish transforms for the odometry, defaults to true -->
-		  <publishOdom>true</publishOdom>
-	  
-		  <!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false -->
-		  <publishWheelJointState>true</publishWheelJointState>
-	  
-		  <!-- Set to true to swap right and left wheels, defaults to true -->
-		  <legacyMode>false</legacyMode>
-		</plugin>
-	  </gazebo>
 
-<!-- 
-    <transmission name="left_wheel_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_wheel_joint">
-          <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
-        </joint>
-        <actuator name="left_wheel_actuator">
-          <mechanicalReduction>7</mechanicalReduction>
-          <hardwareInterface>VelocityJointInterface</hardwareInterface>
-        </actuator>
-      </transmission>
-      
-      <transmission name="right_wheel_transmission">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_wheel_joint">
-          <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>  
-        </joint>
-        <actuator name="right_wheel_actuator">
-          <mechanicalReduction>7</mechanicalReduction>
-          <hardwareInterface>VelocityJointInterface</hardwareInterface>
-        </actuator>
-      </transmission>
-
-      <gazebo>
-        <plugin name="gazebo_ros_control" filename="libgazebo_ros2_contol.so">
-        </plugin>
-      </gazebo> -->
 </robot>
